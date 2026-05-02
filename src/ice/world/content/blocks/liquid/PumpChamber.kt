@@ -85,7 +85,6 @@ class PumpChamber(name: String?) : Pump(name) {
             drawers.drawLight(this)
         }
 
-
         override fun write(write: Writes) {
             super.write(write)
             write.f(time)
@@ -107,7 +106,11 @@ class PumpChamber(name: String?) : Pump(name) {
         }
 
         override fun updateTile() {
-            if (liquids[liquidDrop] <= liquidCapacity - 0.01) {
+            val currentLiquid = liquidDrop
+            if (currentLiquid == null) {
+                return
+            }
+            if (liquids[currentLiquid] <= liquidCapacity - 0.01) {
                 man = false
             }
             if (time / 60 >= 0.5) {
