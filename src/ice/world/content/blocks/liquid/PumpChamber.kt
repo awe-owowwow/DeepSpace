@@ -27,7 +27,13 @@ class PumpChamber(name: String?) : Pump(name) {
     }, object : DrawDefault() {
         override fun draw(build: Building) {
             val building = build as IcetopmBuild
-            val v = building.liquids[building.liquidDrop]
+            // 修复：添加空值检查
+            val currentLiquid = building.liquidDrop
+            if (currentLiquid == null) {
+                Draw.rect(arr[1], build.x, build.y, build.drawrot())
+                return
+            }
+            val v = building.liquids[currentLiquid]
             val i = building.i
             if (v + 1 >= liquidCapacity) {
                 if (building.man or (i == 3)) {
